@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="GuestBook">
+	<resultMap id="guestMap" type="GuestBook">
+		<result property="no" column="no" />
+		<result property="name" column="name" />
+		<result property="password" column="password" />
+		<result property="message" column="message" />
+		<result property="reg_date" column="reg_date" />
+	</resultMap>
+
+	<insert id="insertGuestBook" parameterType="BulletinBoard">
+		INSERT INTO GUESTBOOK
+		VALUES(guestbook_seq.nextval, #{name}, #{password}, #{message},
+		sysdate)
+	</insert>
+
+	<delete id="deleteGuestBook" parameterType="GuestBook" >
+		DELETE FROM GUESTBOOK
+		<where>
+			<if test="no != null">
+				no = #{no}
+			</if>
+		</where>
+	</delete>
+
+	<select id="selectAllGuestBookList" resultMap="guestMap">
+		SELECT * FROM GUESTBOOK
+	</select>
+
+	<select id="selectAllGuestBookListById" resultMap="guestMap">
+		SELECT * FROM GUESTBOOK WHERE no = #{g_no}
+	</select>
+
+</mapper>

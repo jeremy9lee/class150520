@@ -46,7 +46,7 @@
 											<td>${b.name}</td>
 											<td>${b.reg_date}</td>
 											<td>${b.hit }</td>
-										</tr>
+										</tr> 
 										
 									</c:forEach>
 								</c:when>

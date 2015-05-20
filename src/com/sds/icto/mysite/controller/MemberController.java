@@ -1,5 +1,6 @@
 package com.sds.icto.mysite.controller;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import com.sds.icto.mysite.dao.MemberDao;
+import com.sds.icto.mysite.dao.MemberDaoImpl;
 import com.sds.icto.mysite.vo.MemberVo;
 
 @Controller
@@ -22,7 +23,7 @@ import com.sds.icto.mysite.vo.MemberVo;
 public class MemberController {
 
 	@Autowired
-	private MemberDao dao;
+	private MemberDaoImpl dao;
 
 	@RequestMapping("/getMember.do")
 	@ResponseBody
@@ -83,10 +84,10 @@ public class MemberController {
 			@RequestParam("password") String password,
 			@RequestParam("email") String email,
 			@RequestParam("gender") String gender,
-			@RequestParam("agreeProv") String agreeProv) {
+			@RequestParam("agreeProv") String agreeProv) throws SQLException {
 
 		if (agreeProv.equals("y")) {
-			dao.insert(new MemberVo(null, name, email, password, gender));
+			dao.insertMember(new MemberVo(null, name, email, password, gender));
 		}
 		return "/views/user/joinsuccess.jsp";
 	}
@@ -99,7 +100,7 @@ public class MemberController {
 		MemberVo vo = new MemberVo();
 		vo.setPassword(password);
 		vo.setNo((long) session.getAttribute("sessionNo"));
-		dao.update(vo);
+		dao.updateMember(vo);
 
 		return "/main.do";
 

@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import com.sds.icto.mysite.dao.GuestBookDao;
-import com.sds.icto.mysite.dao.MemberDao;
+import com.sds.icto.mysite.dao.GuestBookDaoImpl;
 import com.sds.icto.mysite.vo.GuestBook;
 
 @Controller
@@ -19,14 +18,14 @@ import com.sds.icto.mysite.vo.GuestBook;
 public class GuestController {
 
 	@Autowired
-	private GuestBookDao dao;
+	private GuestBookDaoImpl dao;
 
 	@RequestMapping("/guestbookform.do")
 	public String guestbookForm(Model m) {
 
 		ArrayList<GuestBook> list = null;
 		try {
-			list = (ArrayList<GuestBook>) dao.selectAllList();
+			list = (ArrayList<GuestBook>) dao.selectAllGuestBookList();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -41,7 +40,7 @@ public class GuestController {
 			@RequestParam("content") String content) {
 
 		try {
-			dao.add(new GuestBook(0, name, pass, content, null));
+			dao.insertGuestBook(new GuestBook(0, name, pass, content, null));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -55,7 +54,7 @@ public class GuestController {
 
 		GuestBook gb = null;
 		try {
-			gb = dao.search(Integer.parseInt(id));
+			gb = dao.selectAllGuestBookListById(Integer.parseInt(id));
 		} catch (NumberFormatException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -69,11 +68,11 @@ public class GuestController {
 			@RequestParam("password") String password)
 			throws NumberFormatException, SQLException {
 
-		String realPwd = dao.search(Integer.parseInt(no)).getPassword();
+		String realPwd = dao.selectAllGuestBookListById(Integer.parseInt(no)).getPassword();
 
 		m.addAttribute("no", no);
 		if (realPwd.equals(password)) {
-			dao.delete(Integer.parseInt(no));
+			dao.deleteGuestBook(Integer.parseInt(no));
 			return "/guestbookform.do";
 		} else {
 			String msg = "비밀번호가 맞지 않습니다.";

@@ -2,7 +2,11 @@ package com.sds.icto.mysite.controller;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,14 +14,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.sds.icto.mysite.dao.BulletinDao;
+import com.sds.icto.mysite.dao.BulletinDaoImpl;
 import com.sds.icto.mysite.vo.BulletinBoard;
 
 @Controller
 public class BulletinController {
 
 	@Autowired
-	private BulletinDao dao;
+	private BulletinDaoImpl dao;
 
 	@RequestMapping("/bulletinWriteForm.do")
 	public String bulletinWriteForm() {
@@ -77,10 +81,12 @@ public class BulletinController {
 	}
 
 	@RequestMapping("/bulletinDelete.do")
-	public String bulletinDelete(Model m, @RequestParam("b_no") String no)
+	public String bulletinDelete(Model m, @RequestParam("b_no") String no, HttpServletRequest request)
 			throws NumberFormatException, SQLException {
 
-		dao.deleteById(Integer.parseInt(no));
+		HttpSession session = request.getSession();
+		long memberno = (long) session.getAttribute("sessionNo");
+		dao.delete(0,(Integer.parseInt(no)));
 		return "/bulletinMain.do";
 	}
 	
@@ -88,8 +94,8 @@ public class BulletinController {
 	public String bulletinMain(Model m)
 			throws NumberFormatException, SQLException {
 
-		ArrayList<BulletinBoard> list = (ArrayList<BulletinBoard>) dao.selectAllList(0);
-		ArrayList<BulletinBoard> listByAdmin = (ArrayList<BulletinBoard>) dao.selectAllList(1);
+		ArrayList<BulletinBoard> list = (ArrayList<BulletinBoard>) dao.selectAllList(true);
+		ArrayList<BulletinBoard> listByAdmin = (ArrayList<BulletinBoard>) dao.selectAllList(false);
 		
 		m.addAttribute("list", list);
 		m.addAttribute("listByAdmin", listByAdmin);
@@ -104,10 +110,13 @@ public class BulletinController {
 
 		BulletinBoard b = dao.searchBybNo(Integer.parseInt(no));
 		dao.updateHit(b);
-		HashMap<String, Object> prevAndNextText = (HashMap<String, Object>) dao.getPrevAndNextText(Integer.parseInt(no));
+		List<Map<String, Object>> prevAndNextText = dao.getPrevAndNextText(no);
 
+		for (int i = 0; i < prevAndNextText.size(); i++) {
+			System.out.println(prevAndNextText.get(i));
+		}
 		m.addAttribute("bulletin", b);
-		m.addAttribute("prevAndNext", prevAndNextText);
+		m.addAttribute("prevAndNext", prevAndNextText.get(0));
 		return "/views/board/bulletinDetail.jsp";
 	}
 

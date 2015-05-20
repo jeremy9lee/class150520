@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="BulletinBoard">
+
+	<resultMap id="bulletinMap" type="BulletinBoard">
+		<result property="b_no" column="b_no" />
+		<result property="memberno" column="memberno" />
+		<result property="b_title" column="b_title" />
+		<result property="name" column="name" />
+		<result property="content" column="content" />
+		<result property="reg_date" column="reg_date" />
+		<result property="hit" column="hit" />
+	</resultMap>
+
+
+	<insert id="insert" parameterType="BulletinBoard">
+		INSERT INTO BULLETINBOARD
+		VALUES(bulletin_no_seq.nextval, #{memberno}, #{b_title}, #{name},
+		#{content},
+		sysdate, #{hit})
+	</insert>
+
+
+	<update id="updateBoard" parameterType="BulletinBoard">
+		UPDATE BULLETINBOARD SET
+		b_title = #{b_title}, content = #{content},
+		reg_date = sysdate WHERE
+		b_no=#{b_no}
+	</update>
+
+	<update id="updateHit" parameterType="BulletinBoard">
+		UPDATE BULLETINBOARD SET
+		hit = #{hit} WHERE b_no=#{b_no}
+	</update>
+
+	<delete id="delete" parameterType="map">
+		DELETE FROM BULLETINBOARD
+		<where>
+			<if test="memberno != null">
+				memberno = #{memberno}
+			</if>
+			<if test="no != null">
+				b_no = #{no}
+			</if>
+		</where>
+	</delete>
+
+	<select id="selectAllList" parameterType = "map" resultMap="bulletinMap">
+		SELECT * FROM BULLETINBOARD
+		<where>
+			<choose>
+				<when test='flag == false'>
+					name = 'admin'
+				</when>
+				<otherwise>
+					name != 'admin'
+				</otherwise>
+			</choose>
+		</where>
+
+		ORDER BY reg_date desc
+
+	</select>
+
+	<select id="search" resultMap="bulletinMap">
+		SELECT *
+		FROM BulletinBoard WHERE
+		b_title LIKE #{keyword} OR CONTENT LIKE
+		#{keyword} ORDER BY reg_date
+		desc
+	</select>
+
+
+	<select id="searchBybNo" parameterType="Integer" resultMap="bulletinMap">
+		SELECT * FROM BulletinBoard WHERE b_no=#{no}
+	</select>
+
+	<select id="selectListByMemberNo" parameterType="Integer"
+		resultMap="bulletinMap">
+		SELECT * FROM BulletinBoard WHERE memberno=#{memberno} ORDER
+		BY reg_date desc
+	</select>
+
+	<select id="getPrevAndNextText"  parameterType="hashmap"
+		resultType="hashmap">
+		select * from (select b_no, lead(b_no, 1, 0) over(order by
+		b_no desc) nextNo, lead(b_title, 1, '없음') over(order by b_no desc) nextTitle, lag(b_no,
+		1, 0) over(order by b_no desc) prevNo, lag(b_title, 1, '없음') over(order by
+		b_no desc) prevTitle from BulletinBoard ) where b_no= #{no}
+	</select>
+
+
+</mapper>

@@ -41,24 +41,24 @@
 							<tr>
 								<td>prev</td>
 								<c:choose>
-									<c:when test="${prevAndNext.prevNo eq 0}">
-										<td colspan='3'>${prevAndNext.prevTitle}</td>
+									<c:when test="${prevAndNext.PREVNO eq 0}">
+										<td colspan='3'>${prevAndNext.PREVTITLE}</td>
 									</c:when>
 									<c:otherwise>
 										<td colspan='3'><a
-											href="bulletinDetail.do?no=${prevAndNext.prevNo}">${prevAndNext.prevTitle}</a></td>
+											href="bulletinDetail.do?no=${prevAndNext.PREVNO}">${prevAndNext.PREVTITLE}</a></td>
 									</c:otherwise>
 								</c:choose>
 							</tr>
 							<tr>
 								<td>next</td>
 								<c:choose>
-									<c:when test="${prevAndNext.nextNo eq 0}">
-										<td colspan='3'>${prevAndNext.nextTitle}</td>
+									<c:when test="${prevAndNext.NEXTNO eq 0}">
+										<td colspan='3'>${prevAndNext.NEXTTITLE}</td>
 									</c:when>
 									<c:otherwise>
 										<td colspan='3'><a
-											href="bulletinDetail.do?no=${prevAndNext.nextNo}">${prevAndNext.nextTitle}</a></td>
+											href="bulletinDetail.do?no=${prevAndNext.NEXTNO}">${prevAndNext.NEXTTITLE}</a></td>
 									</c:otherwise>
 								</c:choose>
 
