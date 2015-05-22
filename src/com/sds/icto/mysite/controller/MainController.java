@@ -10,7 +10,7 @@ public class MainController {
 	@RequestMapping("/main.do")
 	public String goToMain(){
 		System.out.println("들어옴");
-		return "views/main/index.jsp";
+		return "/WEB-INF/views/main/index.jsp";
 	}
 	
 	

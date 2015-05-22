@@ -77,7 +77,7 @@
 <body>
 	<div id="container">
 		<div id="header">
-			<jsp:include page="/views/include/header.jsp" flush="false" />
+			<jsp:include page="/WEB-INF/views/include/header.jsp" flush="false" />
 		</div>
 		<div id="content">
 			<div id="user">
@@ -114,10 +114,10 @@
 			</div>
 		</div>
 		<div id="navigation">
-			<jsp:include page="/views/include/navigation.jsp" />
+			<jsp:include page="/WEB-INF/views/include/navigation.jsp" />
 		</div>
 		<div id="footer">
-			<jsp:include page="/views/include/footer.jsp" />
+			<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 		</div>
 	</div>
 </body>

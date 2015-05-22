@@ -43,7 +43,7 @@ public class MemberController {
 	@RequestMapping("/goToJoinForm.do")
 	public String goToJoinForm() {
 
-		return "/views/user/joinform.jsp";
+		return "/WEB-INF/views/user/joinform.jsp";
 	}
 
 	@RequestMapping("/loginform.do")
@@ -51,7 +51,7 @@ public class MemberController {
 			@RequestParam(value = "result", required = false) String result) {
 		System.out.println(result);
 		m.addAttribute("result", result);
-		return "/views/user/loginform.jsp";
+		return "/WEB-INF/views/user/loginform.jsp";
 	}
 
 	@RequestMapping("/login.do")
@@ -89,7 +89,7 @@ public class MemberController {
 		if (agreeProv.equals("y")) {
 			dao.insertMember(new MemberVo(null, name, email, password, gender));
 		}
-		return "/views/user/joinsuccess.jsp";
+		return "/WEB-INF/views/user/joinsuccess.jsp";
 	}
 
 	@RequestMapping("/memberUpdate.do")
@@ -115,7 +115,7 @@ public class MemberController {
 		MemberVo member = dao.getMember(email, null);
 		m.addAttribute("member", member);
 
-		return "views/user/updateForm.jsp";
+		return "/WEB-INF/views/user/updateForm.jsp";
 
 	}
 

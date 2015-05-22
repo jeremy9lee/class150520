@@ -25,7 +25,7 @@ public class BulletinController {
 
 	@RequestMapping("/bulletinWriteForm.do")
 	public String bulletinWriteForm() {
-		return "views/board/bulletinWriteForm.jsp";
+		return "/WEB-INF/views/board/bulletinWriteForm.jsp";
 	}
 
 	@RequestMapping("/bulletinWrite.do")
@@ -57,7 +57,7 @@ public class BulletinController {
 			e.printStackTrace();
 		}
 		m.addAttribute("bulletin", b);
-		return "/views/board/bulletinUpdateForm.jsp";
+		return "/WEB-INF/views/board/bulletinUpdateForm.jsp";
 	}
 
 	@RequestMapping("/bulletinUpdate.do")
@@ -100,7 +100,7 @@ public class BulletinController {
 		m.addAttribute("list", list);
 		m.addAttribute("listByAdmin", listByAdmin);
 
-		return "/views/board/bulletinBoard.jsp";
+		return "/WEB-INF//views/board/bulletinBoard.jsp";
 	}
 	
 	
@@ -117,7 +117,7 @@ public class BulletinController {
 		}
 		m.addAttribute("bulletin", b);
 		m.addAttribute("prevAndNext", prevAndNextText.get(0));
-		return "/views/board/bulletinDetail.jsp";
+		return "/WEB-INF/views/board/bulletinDetail.jsp";
 	}
 
 	

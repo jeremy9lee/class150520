@@ -31,7 +31,7 @@ public class GuestController {
 			e.printStackTrace();
 		}
 		m.addAttribute("list", list);
-		return "/views/guestbook/list.jsp";
+		return "/WEB-INF/views/guestbook/list.jsp";
 	}
 
 	@RequestMapping("/guestinsert.do")
@@ -60,7 +60,7 @@ public class GuestController {
 			e.printStackTrace();
 		}
 		m.addAttribute("no", gb.getNo());
-		return "/views/guestbook/deleteform.jsp";
+		return "/WEB-INF/views/guestbook/deleteform.jsp";
 	}
 
 	@RequestMapping("/guestdelete.do")
@@ -77,7 +77,7 @@ public class GuestController {
 		} else {
 			String msg = "비밀번호가 맞지 않습니다.";
 			m.addAttribute("msg", msg);
-			return "/views/guestbook/deleteform.jsp";
+			return "/WEB-INF/views/guestbook/deleteform.jsp";
 		}
 	}
 	
